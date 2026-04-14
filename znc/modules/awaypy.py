@@ -1,3 +1,18 @@
+"""
+awaypy.py — Python module for ZNC
+Copyright (c) 2026 Piyush Ranjan <hello@piyuple.dev>
+
+Automatically sets/clears the IRC away message based on client connectivity.
+Away message records the exact time you disconnected,
+e.g. "Away from Mon, 13th Mar '26, 14:35"
+
+Commands:
+  status   — show current away state
+  away     — force-set away right now
+  back     — force-clear away right now
+  help     — show this list
+"""
+
 import znc
 from datetime import datetime
 
@@ -60,23 +75,19 @@ class awaypy(znc.Module):
             duration = self._clear_away()
             self.PutModule(f"Welcome back! You were away for {duration}.")
 
-
 #    def OnClientLogin(self):
 #        pass
-
 
 #    def OnClientDetached(self):
 #        pass
 
     def OnClientDisconnect(self):
 #        self.PutModule("DEBUG: OnClientDisconnect fired")
-
         
         count = len(self.GetNetwork().GetClients())
 #        self.PutModule(f"DEBUG: clients still connected = {count}")
         if count == 0:
             self._set_away()
-
 
     def OnModCommand(self, command: str):
         cmd = command.strip().lower()
