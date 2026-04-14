@@ -49,6 +49,10 @@ class awaypy(znc.Module):
 
         return True
 
+    def OnIRCConnected(self):
+        if len(self.GetNetwork().GetClients()) == 0:
+            self._set_away()
+
     def OnClientAttached(self):
 #        self.PutModule("DEBUG: OnClientAttached fired")
 
